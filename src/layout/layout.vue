@@ -1,16 +1,22 @@
 <template>
   <div class="main-wrapper">
+    <Header></Header>
     <MainPage></MainPage>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import MainPage from "../pages/main-page.vue";
+import Header from "../components/header.vue";
+import Footer from "../components/footer.vue";
 
 export default {
-  name: "main-wrapper",
+  name: "layout",
   components: {
     MainPage,
+    Header,
+    Footer
   },
   data: function() {
     return {
