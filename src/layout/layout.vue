@@ -1,22 +1,24 @@
 <template>
-  <div class="main-wrapper">
-    <Header></Header>
-    <MainPage></MainPage>
-    <Footer></Footer>
+  <div class="page-wrapper">
+    <vHeader></vHeader>
+    <div class="content-wrapper">
+      <MainPage></MainPage>
+    </div>
+    <vFooter></vFooter>
   </div>
 </template>
 
 <script>
 import MainPage from "../pages/main-page.vue";
-import Header from "../components/header.vue";
-import Footer from "../components/footer.vue";
+import vHeader from "../components/v-header.vue";
+import vFooter from "../components/v-footer.vue";
 
 export default {
   name: "layout",
   components: {
     MainPage,
-    Header,
-    Footer
+    vHeader,
+    vFooter,
   },
   data: function() {
     return {
@@ -27,7 +29,7 @@ export default {
 </script>
 
 <style scoped>
-.main-wrapper {
+.content-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,5 +37,7 @@ export default {
   margin: 0 auto;
   flex-direction: column;
   max-width: 1200px;
+  margin-bottom: 40px;
+  min-height: 90vh;
 }
 </style>

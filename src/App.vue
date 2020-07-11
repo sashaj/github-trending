@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <MainWrapper />
+    <Layout />
   </div>
 </template>
 
 <script>
-import MainWrapper from "./layout/layout";
+import Layout from "./layout/layout";
 
 export default {
   name: "App",
   components: {
-    MainWrapper,
+    Layout,
   },
 };
 </script>
@@ -21,6 +21,11 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin-top: 60px;
+}
+a {
+  color: #0366d6;
+}
+body, html{
+  overflow: auto;
 }
 </style>
