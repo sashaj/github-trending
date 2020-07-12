@@ -8,9 +8,12 @@ If you don't have the token, you can easily create one (https://docs.github.com/
 Instructions:
 
 1. Create a file 'token.js' in root directory
-2. Put the following code inside 'token.js'
-   const token = 'YOUR TOKEN';
-   export default token;
+2. Put the following code inside 'token.js':
+
+   ```
+      const token = 'YOUR TOKEN';
+      export default token;
+   ```
 
 ## Project setup
 
