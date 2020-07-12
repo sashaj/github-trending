@@ -1,11 +1,5 @@
 # 9_test
 
-## Project setup
-
-```
-yarn install
-```
-
 You would also need to put your github's personal token in root folder of the app.
 The token is used to increase api requests rate limit.
 
@@ -18,9 +12,14 @@ Instructions:
    const token = 'YOUR TOKEN';
    export default token;
 
+## Project setup
+
+```
+yarn install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
 
 yarn run serve
@@ -28,6 +27,7 @@ yarn run serve
 ```
 
 ### Compiles and minifies for production
+
 ```
 
 yarn run build
@@ -35,6 +35,7 @@ yarn run build
 ```
 
 ### Run your tests
+
 ```
 
 yarn run test
@@ -42,6 +43,7 @@ yarn run test
 ```
 
 ### Lints and fixes files
+
 ```
 
 yarn run lint
@@ -49,5 +51,9 @@ yarn run lint
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+```
+
 ```
