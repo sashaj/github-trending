@@ -28,16 +28,20 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .content-wrapper {
   display: flex;
-  justify-content: center;
   align-items: center;
   padding-top: 82px;
   margin: 0 auto;
   flex-direction: column;
   max-width: 1200px;
   margin-bottom: 40px;
-  min-height: 90vh;
+}
+.page-wrapper {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 </style>

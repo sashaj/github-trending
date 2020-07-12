@@ -1,10 +1,14 @@
 <template>
-  <div class="main-page" v-if="loaded">
+  <div class="main-page">
     <h2>Github's Trending JavaScript repositories</h2>
     <div class="repo__table">
       <div class="repo__header">
         <div class="search__wrapper">
-          <input type="text" v-model="searchValue" placeholder="search by stars, name or author"/>
+          <input
+            type="text"
+            v-model="searchValue"
+            placeholder="search by stars, name or author"
+          />
           <button type="button" class="vs__clear" @click="clearResults">
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10">
               <path
@@ -12,7 +16,9 @@
               />
             </svg>
           </button>
-          <button type="button" class="button" @click="searchByString">search</button>
+          <button type="button" class="button" @click="searchByString">
+            search
+          </button>
         </div>
         <div class="v-select__wrapper">
           <p>Sort by:</p>
@@ -24,6 +30,8 @@
           ></vSelect>
         </div>
       </div>
+      <p v-if="errorControllers.search" class="error__message"> {{errorMessages.search}}</p>
+      <p v-if="errorControllers.apiRequest" class="error__message"> {{errorMessages.apiRequest}}</p>
       <RepoItem
         v-for="repo in sortedData"
         :key="repo.id"
@@ -42,11 +50,11 @@ import vSelect from "vue-select";
 export default {
   name: "main-page",
   props: {
-    msg: String
+    msg: String,
   },
   components: {
     RepoItem,
-    vSelect
+    vSelect,
   },
   data() {
     return {
@@ -54,11 +62,19 @@ export default {
       sortedData: [],
       contributorData: [],
       contrbutorUrls: [],
-      reposFromDaysAgo: 20,
+      reposFromDaysAgo: 60,
       contributorLoaded: false,
       selected: "stars",
       loaded: false,
-      searchValue: ""
+      searchValue: "",
+      errorMessages: {
+        search: 'Sorry, nothing was found with your search query, try again!',
+        apiRequest: 'Sorry, could not get data from github.com, please try later or refresh the page'
+      },
+      errorControllers: {
+        search: false,
+        apiRequest: false,
+      }
     };
   },
   methods: {
@@ -82,14 +98,14 @@ export default {
         this.getPastDate(this.reposFromDaysAgo)
       )}&sort=stars&order=desc&`;
       const headers = {
-        Authorization: `TOKEN ${token}`
+        Authorization: `TOKEN ${token}`,
       };
 
       fetch(url, {
-        headers: headers
+        headers: headers,
       })
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           this.repoData = data;
           for (let i = 0; i < this.repoData.items.length; i++) {
             this.contrbutorUrls.push(this.repoData.items[i].contributors_url);
@@ -98,35 +114,41 @@ export default {
           this.repoData.contributors = [];
           this.fetchContributors();
         })
-        .catch(error => {
+        .catch((error) => {
+          this.$preloaders.close();
+          this.errorControllers.apiRequest = true;
           throw new Error(error);
         });
     },
     async fetchContributors() {
       const headers = {
-        Authorization: `TOKEN ${token}`
+        Authorization: `TOKEN ${token}`,
       };
       Promise.all(
-        this.contrbutorUrls.map(url => fetch(url, { headers: headers }))
+        this.contrbutorUrls.map((url) => fetch(url, { headers: headers }))
       )
-        .then(responses => Promise.all(responses.map(res => res.json())))
-        .then(data => {
+        .then((responses) => Promise.all(responses.map((res) => res.json())))
+        .then((data) => {
           this.repoData.contributors.push(data);
           this.contributorLoaded = true;
-          console.log(this.repoData);
           for (let i = 0; i < this.repoData.items.length; i++) {
             this.repoData.items[i].contributors.push(data[i]);
           }
           this.sort();
         })
-        .catch(error => {
+        .then(() => {
+          this.$preloaders.close();
+        })
+        .catch((error) => {
+          this.$preloaders.close();
+          this.errorControllers.apiRequest = true;
           throw new Error(error);
         });
     },
     searchByString() {
       if (this.searchValue.length) {
         this.sortedData = JSON.parse(JSON.stringify(this.repoData.items));
-        this.sortedData = this.sortedData.filter(item => {
+        this.sortedData = this.sortedData.filter((item) => {
           return (
             item.name.toLowerCase().includes(this.searchValue.toLowerCase()) ||
             item.stargazers_count.toString().includes(this.searchValue) ||
@@ -135,6 +157,9 @@ export default {
               .includes(this.searchValue.toLowerCase())
           );
         });
+        if (this.sortedData.length == 0) {
+          this.errorControllers.search = true;
+        }
       }
     },
     clearResults() {
@@ -170,11 +195,18 @@ export default {
             return this.sortedData;
         }
       });
-    }
+    },
   },
   created() {
+    this.$preloaders.open({
+      assetSrc: "https://i.giphy.com/media/TvLuZ00OIADoQ/giphy.webp",
+      overlayStyle: {
+        backgroundColor: "#1874d2",
+        opacity: 1,
+      },
+    });
     this.fetchRepos();
-  }
+  },
 };
 </script>
 
@@ -202,7 +234,7 @@ h2 {
 }
 
 .repo__table {
-  max-width: 800px;
+  width: 800px;
   margin: 0 auto;
   border: 1px solid black;
 }
@@ -210,6 +242,9 @@ h2 {
 .repo-table__header {
   background: gray;
   padding: 20px;
+}
+.error__message{
+  padding: 15px;
 }
 
 h3 {
@@ -231,15 +266,14 @@ a {
   position: relative;
   display: flex;
 }
-.search__wrapper input{
+.search__wrapper input {
   height: 34px;
   padding: 0 10px;
   padding-right: 20px;
   width: 250px;
   margin-right: 10px;
-
 }
-.search__wrapper .vs__clear{
+.search__wrapper .vs__clear {
   position: absolute;
   left: 230px;
   top: 50%;
@@ -247,9 +281,7 @@ a {
 }
 .v-select__wrapper .v-select {
   width: 200px;
-
 }
-
 
 .button {
   width: 70px;
@@ -260,10 +292,9 @@ a {
   padding: 0 10px;
   color: #fff;
   background-color: #2ea44f;
-  border-color: rgba(27,31,35,.15);
-  box-shadow: 0 1px 0 rgba(27,31,35,.1), inset 0 1px 0 hsla(0,0%,100%,.03);
+  border-color: rgba(27, 31, 35, 0.15);
+  box-shadow: 0 1px 0 rgba(27, 31, 35, 0.1),
+    inset 0 1px 0 hsla(0, 0%, 100%, 0.03);
   border-radius: 2px;
 }
-
-
 </style>

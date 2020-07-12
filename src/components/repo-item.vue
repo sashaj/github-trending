@@ -15,13 +15,13 @@
           d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"
         />
       </svg>
-      <a :href="repo_data.html_url" class="repo-table__owner">{{
-        repo_data.owner.login
-      }} </a>
+      <a :href="repo_data.html_url" class="repo-table__owner"
+        >{{ repo_data.owner.login }}
+      </a>
       <span class="separator"> / </span>
-      <a :href="repo_data.html_url" class="repo-table__name"> {{
-        repo_data.name
-      }}</a>
+      <a :href="repo_data.html_url" class="repo-table__name">
+        {{ repo_data.name }}</a
+      >
     </div>
     <p class="repo-table__description">{{ repo_data.description }}</p>
     <a :href="repo_data.html_url" class="repo-table__stars">
@@ -116,18 +116,19 @@ export default {
   border-bottom: 1px solid lightgray;
 }
 
-.repo-table__title-wrapper{
+.repo-table__title-wrapper {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
-.repo-table__title-wrapper{
-  svg{
+.repo-table__title-wrapper {
+  svg {
     margin-right: 5px;
   }
 }
 .v-catalogue-item__contributors {
   display: flex;
+  flex-wrap: wrap;
 }
 .v-catalogue-item__image {
   width: 20px;
@@ -138,25 +139,24 @@ export default {
   margin-right: 4px;
 }
 
-
-.separator{
+.separator {
   margin-left: 5px;
   margin-right: 5px;
 }
-.repo-table__description{
+.repo-table__description {
   color: #586069;
   margin-bottom: 10px;
 }
 
-.repo-table__stars{
+.repo-table__stars {
   margin-bottom: 10px;
   display: flex;
   align-items: center;
 }
-.repo-table__stars svg{
+.repo-table__stars svg {
   margin-right: 5px;
 }
-.contributors{
+.contributors {
   margin-right: 5px;
 }
 </style>
