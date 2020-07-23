@@ -1,9 +1,12 @@
-# 9_test
+# JS github-trending
 
-You would also need to put your github's personal token in root folder of the app.
+This project simulates github.com/trending for JS. 
+
+In order to run, you would also need to put your github's personal token in root folder of the app.
 The token is used to increase api requests rate limit.
 
-If you don't have the token, you can easily create one (https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
+If you don't have the token, 
+you can create one (https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
 
 Instructions:
 
@@ -14,6 +17,7 @@ Instructions:
       const token = 'YOUR TOKEN';
       export default token;
    ```
+Otherwise, its a standard vue-cli project
 
 ## Project setup
 
